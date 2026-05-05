@@ -3,9 +3,6 @@ export const cal = () => {
   triggers.forEach((trigger) => {
     trigger.setAttribute('data-cal-link', 'gregfaulkner/chute5');
     trigger.setAttribute('data-cal-namespace', 'chute5');
-    trigger.setAttribute(
-      'data-cal-config',
-      '{&quot;layout&quot;:&quot;month_view&quot;,&quot;useSlotsViewOnSmallScreen&quot;:&quot;true&quot;}'
-    );
+    trigger.setAttribute('data-cal-config', '{layout:month_view;useSlotsViewOnSmallScreen:true;}');
   });
 };
