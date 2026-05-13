@@ -1,12 +1,8 @@
-import { cal } from './components/cal';
-import { dynamic } from './components/dynamic';
-import { squares } from './components/squares';
-import { timeline } from './components/timeline';
+import { components } from './components';
+import { utils } from './utils';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
-  dynamic();
-  squares();
-  timeline();
-  cal();
+  components();
+  utils();
 });
