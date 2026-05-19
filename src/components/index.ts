@@ -1,13 +1,9 @@
-import { cal } from './cal';
 import { dynamic } from './dynamic';
-import { squares } from './squares';
+import { shaders } from './shaders';
 import { timeline } from './timeline';
 
 export const components = () => {
-  console.log('components');
-
-  cal();
+  shaders();
   dynamic();
-  squares();
   timeline();
 };

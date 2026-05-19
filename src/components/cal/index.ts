@@ -1,8 +1,0 @@
-export const cal = () => {
-  const triggers = document.querySelectorAll('[data-action="cal"]');
-  triggers.forEach((trigger) => {
-    trigger.setAttribute('data-cal-link', 'gregfaulkner/chute5');
-    trigger.setAttribute('data-cal-namespace', 'chute5');
-    trigger.setAttribute('data-cal-config', '{layout:month_view;useSlotsViewOnSmallScreen:true;}');
-  });
-};

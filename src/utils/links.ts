@@ -1,6 +1,4 @@
 export const links = () => {
-  console.log('links');
-
   const workItems = document.querySelectorAll<HTMLDivElement>('[data-work-item]');
   workItems.forEach((item) => {
     item.id = item.dataset.workItem || '';
