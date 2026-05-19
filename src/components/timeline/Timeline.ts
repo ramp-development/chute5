@@ -7,9 +7,9 @@ export class Timeline {
 
   constructor(component: HTMLElement) {
     this.element = component;
-    this.currentWeek = this.element.querySelector(`[${this.selector}="current"]`);
-    this.nextWeek = this.element.querySelector(`[${this.selector}="next"]`);
-    this.todayMarker = this.element.querySelector(`[${this.selector}="today"]`);
+    this.currentWeek = this.element.querySelector(`[${this.selector}="current"]`) as HTMLElement;
+    this.nextWeek = this.element.querySelector(`[${this.selector}="next"]`) as HTMLElement;
+    this.todayMarker = this.element.querySelector(`[${this.selector}="today"]`) as HTMLElement;
   }
 
   init() {
