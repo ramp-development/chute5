@@ -1,18 +1,16 @@
-import { createShader } from 'shaders/js';
+import { createShader, type ShaderInstance } from 'shaders/js';
 
 export class Shader {
   element: HTMLCanvasElement;
-  selector: string = 'data-shader';
-  location: string;
+  shader: ShaderInstance | null = null;
   resizeTimeout: number | null = null;
 
   constructor(component: HTMLCanvasElement) {
     this.element = component;
-    this.location = component.dataset.shader as string;
   }
 
-  init() {
-    this.setupShader();
+  async init() {
+    await this.setupShader();
     this.handleResize();
   }
 
@@ -21,7 +19,7 @@ export class Shader {
     const style = getComputedStyle(this.element);
     const background1 = style.getPropertyValue('--_theme---background');
     const background2 = style.getPropertyValue('--_theme---background-2');
-    await createShader(this.element, {
+    this.shader = await createShader(this.element, {
       components: [
         {
           type: 'Swirl',
@@ -66,7 +64,7 @@ export class Shader {
           type: 'FilmGrain',
           id: 'idmopv498snizgmx7xn',
           props: {
-            strength: 0.25,
+            strength: 0,
           },
         },
       ],
@@ -74,19 +72,17 @@ export class Shader {
   }
 
   handleResize() {
-    // window.addEventListener('resize', () => {
-    //   if (this.resizeTimeout) {
-    //     clearTimeout(this.resizeTimeout);
-    //   }
-    //   this.resizeTimeout = window.setTimeout(() => {
-    //     this.setupShader();
-    //   }, 50);
-    // });
+    window.addEventListener('resize', () => {
+      this.shader?.resize();
+    });
   }
 
-  destroy() {
-    // if (this.resizeTimeout) {
-    //   clearTimeout(this.resizeTimeout);
-    // }
+  async destroy() {
+    if (this.shader) {
+      this.shader.destroy();
+      this.shader = null;
+    }
+
+    if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
   }
 }
