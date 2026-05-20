@@ -151,13 +151,124 @@ function formatTime(format: string, timezone: string | null = null): string {
 }
 
 /**
- * Update element's text content with formatted time
+ * Measure the maximum width needed for a character
+ * @param element - Parent element to use for measuring
+ * @returns Width in pixels
+ */
+function measureCharWidth(element: HTMLElement): number {
+  const measureEl = document.createElement('span');
+  measureEl.style.cssText = 'visibility: hidden; position: absolute; white-space: nowrap;';
+  measureEl.textContent = '0123456789:/ APM';
+  element.appendChild(measureEl);
+  const width = measureEl.offsetWidth / measureEl.textContent.length;
+  element.removeChild(measureEl);
+  // return Math.ceil(width * 1.1); // Add 10% breathing room
+  return width;
+}
+
+/**
+ * Create character wrapper structure for animation
+ * @param char - Single character to wrap
+ * @param width - Fixed width for the character
+ * @returns HTMLElement with animation structure
+ */
+function createCharWrapper(char: string, width: number): HTMLElement {
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = `position: relative; display: inline-block; overflow: hidden; width: ${width}px; text-align: center;`;
+
+  const currentChar = document.createElement('div');
+  currentChar.textContent = char;
+  currentChar.className = 'current-char';
+
+  const nextChar = document.createElement('div');
+  nextChar.style.cssText = 'position: absolute; top: 100%; left: 0; right: 0;';
+  nextChar.className = 'next-char';
+
+  wrapper.appendChild(currentChar);
+  wrapper.appendChild(nextChar);
+
+  return wrapper;
+}
+
+/**
+ * Initialize element with character wrappers
+ * @param element - Element to initialize
+ * @param text - Initial text
+ */
+function initializeCharacters(element: HTMLElement, text: string): void {
+  element.innerHTML = '';
+  const charWidth = measureCharWidth(element);
+  for (const char of text) {
+    element.appendChild(createCharWrapper(char, charWidth));
+  }
+}
+
+/**
+ * Animate character change using GSAP
+ * @param wrapper - Character wrapper element
+ * @param newChar - New character to display
+ * @param delay - Delay before animation starts
+ */
+function animateCharChange(wrapper: HTMLElement, newChar: string, delay: number = 0): void {
+  const currentChar = wrapper.querySelector('.current-char') as HTMLElement;
+  const nextChar = wrapper.querySelector('.next-char') as HTMLElement;
+
+  if (!currentChar || !nextChar) return;
+
+  // Set new character in the next position
+  nextChar.textContent = newChar;
+
+  // Animate both characters sliding up
+  // @ts-expect-error - gsap is loaded globally
+  gsap.to([currentChar, nextChar], {
+    yPercent: -100,
+    duration: 0.3,
+    ease: 'power2.inOut',
+    delay,
+    onComplete: () => {
+      // Reset positions
+      currentChar.textContent = newChar;
+      // @ts-expect-error - gsap is loaded globally
+      gsap.set([currentChar, nextChar], { yPercent: 0 });
+      nextChar.textContent = '';
+    },
+  });
+}
+
+/**
+ * Update element's text content with formatted time (animated)
  * @param element - Element to update
  * @param format - Format string
  * @param timezone - Optional timezone
  */
 function updateElement(element: HTMLElement, format: string, timezone: string | null): void {
-  element.textContent = formatTime(format, timezone);
+  const newText = formatTime(format, timezone);
+
+  // Check if element has been initialized with character wrappers
+  const wrappers = element.querySelectorAll('div[style*="overflow: hidden"]');
+
+  if (wrappers.length === 0) {
+    // First time - initialize
+    initializeCharacters(element, newText);
+  } else {
+    // Update existing characters
+    const chars = Array.from(newText);
+
+    // Handle length mismatch by reinitializing
+    if (wrappers.length !== chars.length) {
+      initializeCharacters(element, newText);
+      return;
+    }
+
+    // Animate each changed character with stagger from right to left
+    wrappers.forEach((wrapper, i) => {
+      const currentText = wrapper.querySelector('.current-char')?.textContent || '';
+      if (currentText !== chars[i]) {
+        const delay = (chars.length - 1 - i) * 0.1;
+        animateCharChange(wrapper as HTMLElement, chars[i], delay);
+      }
+    });
+  }
 }
 
 /**
