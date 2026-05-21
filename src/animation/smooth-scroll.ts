@@ -1,6 +1,7 @@
-import Lenis from 'lenis';
+export const smoothScroll = async () => {
+  // Dynamically import Lenis only when needed
+  const { default: Lenis } = await import('lenis');
 
-export const smoothScroll = () => {
   // Initialize a new Lenis instance for smooth scrolling
   const lenis = new Lenis();
 

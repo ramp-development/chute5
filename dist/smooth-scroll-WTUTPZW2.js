@@ -1,0 +1,1 @@
+import"./chunk-O2XFH626.js";var r=async()=>{let{default:t}=await import("./lenis-IXYLBNMI.js"),o=new t;o.on("scroll",ScrollTrigger.update),gsap.ticker.add(a=>{o.raf(a*1e3)}),gsap.ticker.lagSmoothing(0)};export{r as smoothScroll};

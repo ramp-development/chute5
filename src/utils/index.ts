@@ -1,5 +1,4 @@
-import { links } from './links';
-
-export const utils = () => {
+export const utils = async () => {
+  const { links } = await import('./links');
   links();
 };
