@@ -1,0 +1,1 @@
+import"./chunk-O2XFH626.js";var n=()=>{document.querySelectorAll("[data-work-item]").forEach(e=>{e.id=e.dataset.workItem||""}),document.querySelectorAll("[data-link-work]").forEach(e=>{let t=e.querySelector("a");t&&(t.href=`#${e.dataset.linkWork}`)})};export{n as links};

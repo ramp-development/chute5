@@ -1,13 +1,10 @@
-import { dynamic } from './dynamic';
-import { nav } from './nav';
-import { shaders } from './shaders';
-import { timeline } from './timeline';
-import { videos } from './videos';
-
-export const components = () => {
-  nav();
-  dynamic();
-  timeline();
-  videos();
-  shaders();
+export const components = async () => {
+  // Load all components in parallel for faster initialization
+  await Promise.all([
+    import('./nav').then((m) => m.nav()),
+    import('./dynamic').then((m) => m.dynamic()),
+    import('./timeline').then((m) => m.timeline()),
+    import('./videos').then((m) => m.videos()),
+    import('./shaders').then((m) => m.shaders()),
+  ]);
 };

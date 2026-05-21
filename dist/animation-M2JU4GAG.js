@@ -1,0 +1,1 @@
+import"./chunk-O2XFH626.js";var t=async()=>{await Promise.all([import("./smooth-scroll-WTUTPZW2.js").then(o=>o.smoothScroll()),import("./work-list-CMEY3DC7.js").then(o=>o.workList()),import("./glow-X4SUZ44J.js").then(o=>o.glow())])};export{t as animation};

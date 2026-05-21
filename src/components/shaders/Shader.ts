@@ -1,4 +1,7 @@
-import { createShader, type ShaderInstance } from 'shaders/js';
+type ShaderInstance = {
+  resize: () => void;
+  destroy: () => void;
+};
 
 export class Shader {
   element: HTMLCanvasElement;
@@ -42,6 +45,9 @@ export class Shader {
   }
 
   async setupShader() {
+    // Dynamically import shaders only when element is in viewport
+    const { createShader } = await import('shaders/js');
+
     // get background colour from this.element var(--_theme---background-2)
     const style = getComputedStyle(this.element);
     const background = style.getPropertyValue('--_theme---background');

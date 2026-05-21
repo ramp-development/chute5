@@ -1,10 +1,12 @@
-import { animation } from './animation';
-import { components } from './components';
-import { utils } from './utils';
-
 window.Webflow ||= [];
-window.Webflow.push(() => {
-  components();
-  animation();
-  utils();
+window.Webflow.push(async () => {
+  // Load all modules in parallel for optimal performance
+  const [{ components }, { animation }, { utils }] = await Promise.all([
+    import('./components'),
+    import('./animation'),
+    import('./utils'),
+  ]);
+
+  // Initialize all features in parallel
+  await Promise.all([components(), animation(), utils()]);
 });
