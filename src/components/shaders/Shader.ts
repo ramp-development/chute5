@@ -44,16 +44,15 @@ export class Shader {
   async setupShader() {
     // get background colour from this.element var(--_theme---background-2)
     const style = getComputedStyle(this.element);
-    const background1 = style.getPropertyValue('--_theme---background');
-    const background2 = style.getPropertyValue('--_theme---background-2');
+    const background = style.getPropertyValue('--_theme---background');
     this.shader = await createShader(this.element, {
       components: [
         {
           type: 'Swirl',
           id: 'idmopuqc7pml2j3z58j',
           props: {
-            colorA: background2,
-            colorB: background2,
+            colorA: background,
+            colorB: background,
             detail: 1.7,
           },
         },
@@ -61,7 +60,7 @@ export class Shader {
           type: 'ChromaFlow',
           id: 'idmopucfslad9zri29r',
           props: {
-            baseColor: background1,
+            baseColor: background,
             downColor: '#fe7f2d',
             leftColor: '#fe7f2d',
             momentum: 13,
