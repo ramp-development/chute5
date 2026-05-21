@@ -84,11 +84,29 @@ When you run `pnpm dev`, two things happen:
 - esbuild is set to `watch` mode. Every time that you save your files, the project will be rebuilt.
 - A local server is created under `http://localhost:3000` that serves all your project files. You can import them in your Webflow projects like:
 
+**Development:**
 ```html
 <script defer src="http://localhost:3000/{FILE_PATH}.js"></script>
 ```
 
+**Production (Netlify):**
+```html
+<script type="module" src="https://your-site.netlify.app/{FILE_PATH}.js"></script>
+```
+Note: The production build uses ES modules format. Make sure to use `type="module"` in your script tag.
+
 - Live Reloading is enabled by default, meaning that every time you save a change in your files, the website you're working on will reload automatically. You can disable it in `/bin/build.js`.
+
+### Deploying to Netlify
+
+This project is configured for Netlify deployment:
+
+1. Connect your repository to Netlify
+2. Netlify will automatically detect the build settings from `netlify.toml`
+3. Every push to your main branch will trigger a deployment
+4. The built files will be served from Netlify's global CDN with optimal caching
+
+The production build uses ES module format with code splitting for improved performance.
 
 ### Building multiple files
 
