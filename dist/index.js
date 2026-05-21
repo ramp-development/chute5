@@ -5,7 +5,7 @@ window.Webflow ||= [];
 window.Webflow.push(async () => {
   const [{ components }, { animation }, { utils }] = await Promise.all([
     import("./components-G2ENPTEY.js"),
-    import("./animation-XXPBME75.js"),
+    import("./animation-XKRXPJHL.js"),
     import("./utils-MMIOS746.js")
   ]);
   await Promise.all([components(), animation(), utils()]);
