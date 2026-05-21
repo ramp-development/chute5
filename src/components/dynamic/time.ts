@@ -219,7 +219,6 @@ function animateCharChange(wrapper: HTMLElement, newChar: string, delay: number 
   nextChar.textContent = newChar;
 
   // Animate both characters sliding up
-  // @ts-expect-error - gsap is loaded globally
   gsap.to([currentChar, nextChar], {
     yPercent: -100,
     duration: 0.3,
@@ -228,7 +227,6 @@ function animateCharChange(wrapper: HTMLElement, newChar: string, delay: number 
     onComplete: () => {
       // Reset positions
       currentChar.textContent = newChar;
-      // @ts-expect-error - gsap is loaded globally
       gsap.set([currentChar, nextChar], { yPercent: 0 });
       nextChar.textContent = '';
     },
