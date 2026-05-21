@@ -215,6 +215,13 @@ function animateCharChange(wrapper: HTMLElement, newChar: string, delay: number 
 
   if (!currentChar || !nextChar) return;
 
+  // Check if GSAP is available
+  if (typeof gsap === 'undefined') {
+    // Fallback to instant update if GSAP not loaded yet
+    currentChar.textContent = newChar;
+    return;
+  }
+
   // Set new character in the next position
   nextChar.textContent = newChar;
 
