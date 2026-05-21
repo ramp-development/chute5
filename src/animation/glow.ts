@@ -5,7 +5,23 @@ export const glow = () => {
   const glowElements = document.querySelectorAll<HTMLElement>('.u-glow');
   if (!glowElements.length) return;
 
+  let glowVisible = false;
+
   const updateGlowPosition = (e: MouseEvent) => {
+    if (!glowVisible) {
+      glowVisible = true;
+      gsap.to(
+        {},
+        {
+          duration: 0.5,
+          ease: 'power2.out',
+          onUpdate: function () {
+            document.documentElement.style.setProperty('--glow--opacity', `${this.progress()}`);
+          },
+        }
+      );
+    }
+
     glowElements.forEach((element) => {
       const parent = element.offsetParent as HTMLElement;
       if (!parent) return;
