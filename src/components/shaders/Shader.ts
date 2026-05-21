@@ -4,14 +4,41 @@ export class Shader {
   element: HTMLCanvasElement;
   shader: ShaderInstance | null = null;
   resizeTimeout: number | null = null;
+  observer: IntersectionObserver | null = null;
+  isTouchDevice: boolean;
 
   constructor(component: HTMLCanvasElement) {
     this.element = component;
+    this.isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   }
 
   async init() {
-    await this.setupShader();
+    if (this.isTouchDevice) return;
+
+    this.setupObserver();
     this.handleResize();
+  }
+
+  setupObserver() {
+    const viewportHeight = window.innerHeight;
+    const rootMargin = `${viewportHeight * 0.2}px`;
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !this.shader) {
+            this.setupShader();
+          } else if (!entry.isIntersecting && this.shader) {
+            this.destroyShader();
+          }
+        });
+      },
+      {
+        rootMargin,
+      }
+    );
+
+    this.observer.observe(this.element);
   }
 
   async setupShader() {
@@ -77,10 +104,19 @@ export class Shader {
     });
   }
 
-  async destroy() {
+  destroyShader() {
     if (this.shader) {
       this.shader.destroy();
       this.shader = null;
+    }
+  }
+
+  async destroy() {
+    this.destroyShader();
+
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
     }
 
     if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
