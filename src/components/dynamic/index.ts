@@ -1,3 +1,4 @@
+import { initCounter } from './counter';
 import { initTime } from './time';
 
 /**
@@ -6,6 +7,7 @@ import { initTime } from './time';
  */
 const handlers: Record<string, (element: HTMLElement) => void> = {
   time: initTime,
+  counter: initCounter,
 };
 
 /**

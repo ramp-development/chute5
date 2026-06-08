@@ -4,7 +4,7 @@ import "./chunk-JCVR2ZN6.js";
 window.Webflow ||= [];
 window.Webflow.push(async () => {
   const [{ components }, { animation }, { utils }] = await Promise.all([
-    import("./components-G2ENPTEY.js"),
+    import("./components-T5IJNVKN.js"),
     import("./animation-WC4QHR7W.js"),
     import("./utils-MMIOS746.js")
   ]);
