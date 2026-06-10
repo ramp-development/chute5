@@ -158,7 +158,7 @@ function formatTime(format: string, timezone: string | null = null): string {
 function measureCharWidth(element: HTMLElement): number {
   const measureEl = document.createElement('span');
   measureEl.style.cssText = 'visibility: hidden; position: absolute; white-space: nowrap;';
-  measureEl.textContent = '0123456789:/ APM';
+  measureEl.textContent = '0123456789:';
   element.appendChild(measureEl);
   const width = measureEl.offsetWidth / measureEl.textContent.length;
   element.removeChild(measureEl);
@@ -174,7 +174,7 @@ function measureCharWidth(element: HTMLElement): number {
  */
 function createCharWrapper(char: string, width: number): HTMLElement {
   const wrapper = document.createElement('div');
-  wrapper.style.cssText = `position: relative; display: inline-block; overflow: hidden; width: ${width}px; text-align: center;`;
+  wrapper.style.cssText = `position: relative; display: inline-block; overflow: hidden; min-width: ${width}px; text-align: center;`;
 
   const currentChar = document.createElement('div');
   currentChar.textContent = char;
